@@ -1,5 +1,8 @@
 class Solution {
     boolean prime(int n){
+        if(n==0 || n==1){
+            return false;
+        }
         for(int i=2;i*i<=n;i++){
             if(n%i==0){
                 return false;
@@ -7,27 +10,25 @@ class Solution {
         }return true;
     }
     public int maximumPrimeDifference(int[] nums) {
-        HashMap<Integer,Integer> mp = new HashMap<>();
-        for(int i=2;i<100;i++){
-            if(prime(i)){
-                mp.put(i,0);
-            }
-        }
         int left = 0;
-        int right = 0;
-        for(int i=0;i<nums.length;i++){
-            if(mp.containsKey(nums[i])){
-                left = i;
-                break;
+        int right = nums.length-1;
+        int l=-1,r=-1;
+        while(left<right){
+            if(prime(nums[left])){
+                l=left;
             }
-        }
-        for(int i=nums.length-1;i>=0;i--){
-            if(mp.containsKey(nums[i])){
-                right = i;
-                break;
+            if(prime(nums[right])){
+                r=right;
             }
-        }
-        if(left==right)return 0;
-        return right-left;
+            if(l>-1 && r>-1){
+                return r-l;
+            }
+            else if(l==-1){
+                left++;
+            }
+            else{
+                right--;
+            }
+        }return 0;
     }
 }
